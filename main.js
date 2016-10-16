@@ -1,46 +1,74 @@
 var curLon = 0;
 var curLat = 0;
-var url = '';
+var urlWeather = '';
+var urlForecast = '';
 
 
 function setLocation (lat, lon) {
   curLat = lat.toString();
   curLon = lon.toString();
-  url = 'http://api.openweathermap.org/data/2.5/weather?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
+  urlWeather = 'http://api.openweathermap.org/data/2.5/weather?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
+  urlForecast = 'http://api.openweathermap.org/data/2.5/forecast?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
   console.log(curLat);
   console.log(curLon);
-  console.log(url);
+  console.log(urlWeather);
+  console.log(urlForecast);
 }
 
 function setWeather (response) {
   $('#location').html(response.name);
   $('#t1').html(response.main.temp);
+  $('#c1').html(response.weather[0].main);
+  console.log(response);
 }
 
-function fetchSuccess (response) {
+function setForecast (response) {
+  $('#mint1').html(response.list[0].main.temp_min);
+  $('#maxt1').html(response.list[0].main.temp_max);
+  console.log(response);
+}
+
+function weatherSuccess (response) {
   //console.log(response);
   setWeather(response);
 }
 
+function forecastSuccess (response) {
+  //console.log(response);
+  setForecast(response);
+}
+
 function fetchError () {
-  alert('Could nto retreive weather');
+  alert('Could not retreive weather');
 }
 
 function fetchWeather () {
   $.ajax({
       type: 'GET',
       dataType: 'jsonp',
-      url: url,
+      url: urlWeather,
       xhrFields: {
         withCredentials: false
       },
-      success: fetchSuccess,
+      success: weatherSuccess,
 
       error: fetchError
     });
 }
 
-//$.getJSON(url, fetchSuccess)
+function fetchForecast () {
+  $.ajax({
+      type: 'GET',
+      dataType: 'jsonp',
+      url: urlForecast,
+      xhrFields: {
+        withCredentials: false
+      },
+      success: forecastSuccess,
+
+      error: fetchError
+    });
+}
 
 $(document).ready(function(){
 
@@ -50,6 +78,6 @@ $(document).ready(function(){
   });
 
   $(document).on('click', function () {
-
+    fetchForecast();
   });
 });
