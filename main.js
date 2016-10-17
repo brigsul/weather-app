@@ -2,6 +2,8 @@ var curLon = 0;
 var curLat = 0;
 var urlWeather = '';
 var urlForecast = '';
+var curMin1 = 9999;
+var curMax1 = -9999;
 
 
 function setLocation (lat, lon) {
@@ -16,15 +18,23 @@ function setLocation (lat, lon) {
 }
 
 function setWeather (response) {
-  $('#location').html(response.name);
-  $('#t1').html(response.main.temp);
-  $('#c1').html(response.weather[0].main);
+  var cityName = response.name;
+  var curTemp = response.main.temp;
+  var curCond = response.weather[0].main;
+
+  $('#location').html(cityName);
+  $('#t1').html(curTemp);
+  $('#c1').html(curCond);
+
   console.log(response);
 }
 
 function setForecast (response) {
-  $('#mint1').html(response.list[0].main.temp_min);
-  $('#maxt1').html(response.list[0].main.temp_max);
+  setMinMax(response);
+
+  $('#mint1').html(curMin1);
+  $('#maxt1').html(curMax1);
+
   console.log(response);
 }
 
@@ -70,14 +80,36 @@ function fetchForecast () {
     });
 }
 
+/* Iterate through forecast response to find
+    min and max temps for next 24 hours */
+
+function setMinMax (response) {
+  for(var i = 0; i < 8; i++) {
+    console.log(response.list[i].main.temp_min);
+    var tempMin1 = response.list[i].main.temp_min;
+    var tempMax1 = response.list[i].main.temp_max;
+
+    if (tempMin1 < curMin1) {
+      curMin1 = tempMin1;
+    }
+    else if (tempMax1 > curMax1) {
+      curMax1 = tempMin1;
+    }
+    else {
+      return;
+    }
+  }
+}
+
 $(document).ready(function(){
 
   navigator.geolocation.getCurrentPosition(function(position) {
     setLocation(position.coords.latitude, position.coords.longitude);
     fetchWeather();
+    fetchForecast();
   });
 
   $(document).on('click', function () {
-    fetchForecast();
+
   });
 });

@@ -13,24 +13,30 @@
   <body>
     <div class="title">
       <h1>Local Weather App</h1>
-      <h3>Your current location is: <strong id="location">"Location"</strong></h3>
+      <h2>Your current location is: <strong id="location">"Location"</strong></h2>
     </div>
     <div class="card">
+      <div class="container" id="weatherTop">
+        <h3>Current Conditions</h3>
+        <p id="c1">Condition</p>
+      </div>
       <img src="#" class="wicon" atl="Weather" style=width:100%>
-        <div class="container" id="weather1">
+        <div class="container" id="weatherBottom">
+
+          <h3>24-Hour Forecast</h3>
           <table id="weatherTable">
             <tr>
-              <th>Min:</th>
-              <th>Current:</th>
-              <th>Max:</th>
+              <th>Min</th>
+              <th class="curCol">Current</th>
+              <th>Max</th>
             </tr>
             <tr>
               <td id="mint1">min temp</td>
-              <td id="t1">cur temp</td>
+              <td id="t1" class="curCol">cur temp</td>
               <td id="maxt1">max temp</td>
             </tr>
           </table>
-          <h4 id="c1"><b>Condition</b></h4>
+
           <p id="d1">Other Weather Details</p>
         </div>
     </div>

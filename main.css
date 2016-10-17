@@ -9,11 +9,11 @@ body {
   font-size: 36px;
 }
 
-.title h3 {
+.title h2 {
   margin-top: -10px;
   font-family: Lato;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 28px;
 }
 
 #location {
@@ -22,6 +22,7 @@ body {
 
 .card {
   /*padding-top: 40px;*/
+  h/*eight: 500px;*/
   text-align: center;
   background-color: #FFF;
   /*padding: 25px;*/
@@ -36,6 +37,10 @@ body {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
+.curCol {
+  font-weight: bold;
+  font-size: 22px;
+}
 #weatherTable {
   width: 100%;
   text-align: center;
@@ -45,7 +50,15 @@ body {
   padding: 2px 16px;
 }
 
-#weather1 {
+.container h3 {
+  font-size: 24px;
+}
+
+.container p {
+  font-size: 20px;
+}
+
+#weatherTop,
+#weatherBottom {
   font-family: Lato;
-  font-size: 14px;
 }
