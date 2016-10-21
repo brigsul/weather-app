@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <link href="main.css" type="text/css" rel="stylesheet">
+    <link href="weather.css" type="text/css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <title>Weather App</title>
@@ -17,28 +18,27 @@
     </div>
     <div class="card">
       <div class="container" id="weatherTop">
-        <h3>Current Conditions</h3>
-        <p id="c1">Condition</p>
+        <h3 id="c1">Conditions</h3>
+        <p id="hum1">Humidity:</p>
       </div>
-      <img src="#" class="wicon" atl="Weather" style=width:100%>
-        <div class="container" id="weatherBottom">
-
-          <h3>24-Hour Forecast</h3>
-          <table id="weatherTable">
-            <tr>
-              <th>Min</th>
-              <th class="curCol">Current</th>
-              <th>Max</th>
-            </tr>
-            <tr>
-              <td id="mint1">min temp</td>
-              <td id="t1" class="curCol">cur temp</td>
-              <td id="maxt1">max temp</td>
-            </tr>
-          </table>
-
-          <p id="d1">Other Weather Details</p>
-        </div>
+      <div class="container" id="weatherMiddle">
+        <img id="weatherIcon"/>
+      </div>
+      <div class="container" id="weatherBottom">
+        <h3>24-Hour Forecast</h3>
+        <table id="weatherTable">
+          <tr>
+            <th>Min</th>
+            <th class="curCol">Current</th>
+            <th>Max</th>
+          </tr>
+          <tr>
+            <td id="mint1">min temp</td>
+            <td id="t1" class="curCol">cur temp</td>
+            <td id="maxt1">max temp</td>
+          </tr>
+        </table>
+      </div>
     </div>
   </body>
 </html>

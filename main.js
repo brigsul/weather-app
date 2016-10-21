@@ -4,7 +4,7 @@ var urlWeather = '';
 var urlForecast = '';
 var curMin1 = 9999;
 var curMax1 = -9999;
-
+var hour = (new Date()).getHours();
 
 function setLocation (lat, lon) {
   curLat = lat.toString();
@@ -19,12 +19,37 @@ function setLocation (lat, lon) {
 
 function setWeather (response) {
   var cityName = response.name;
-  var curTemp = response.main.temp;
+  var curTemp = Math.round(response.main.temp);
   var curCond = response.weather[0].main;
+  var curHum = response.main.humidity;
 
   $('#location').html(cityName);
-  $('#t1').html(curTemp);
+  $('#t1').html(curTemp+"&#8457;");
   $('#c1').html(curCond);
+  $('#hum1').html("Humidity: "+curHum+"%");
+
+  console.log(hour);
+
+  if (curCond == "Clear") {
+    if (7 < hour && hour < 19) {
+      $('#weatherIcon').html("<img src='icons\\clear-day.png'/>");
+    }
+    else {
+      $('#weatherIcon').html("<img src='icons\\clear-night.png'/>");
+    }
+  }
+  else if (curCond == "Cloudy") {
+
+  }
+  else if (curCond == "Rain") {
+
+  }
+  else if (curCond == "Sonw") {
+
+  }
+  else if (curCond == "Storms") {
+
+  }
 
   console.log(response);
 }
@@ -32,8 +57,8 @@ function setWeather (response) {
 function setForecast (response) {
   setMinMax(response);
 
-  $('#mint1').html(curMin1);
-  $('#maxt1').html(curMax1);
+  $('#mint1').html(curMin1+"&#8457;");
+  $('#maxt1').html(curMax1+"&#8457;");
 
   console.log(response);
 }
@@ -90,10 +115,10 @@ function setMinMax (response) {
     var tempMax1 = response.list[i].main.temp_max;
 
     if (tempMin1 < curMin1) {
-      curMin1 = tempMin1;
+      curMin1 = Math.round(tempMin1);
     }
     else if (tempMax1 > curMax1) {
-      curMax1 = tempMin1;
+      curMax1 = Math.round(tempMax1);
     }
     else {
       return;
