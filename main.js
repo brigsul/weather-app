@@ -1,14 +1,13 @@
-var curLon = 0;
-var curLat = 0;
+var curLon = '';
+var curLat = '';
 var urlWeather = '';
 var urlForecast = '';
 var curMin1 = 9999;
 var curMax1 = -9999;
 var hour = (new Date()).getHours();
+var curLoc = '';
 
 function setLocation (lat, lon) {
-  curLat = lat.toString();
-  curLon = lon.toString();
   urlWeather = 'http://api.openweathermap.org/data/2.5/weather?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
   urlForecast = 'http://api.openweathermap.org/data/2.5/forecast?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
   console.log(curLat);
@@ -16,6 +15,9 @@ function setLocation (lat, lon) {
   console.log(urlWeather);
   console.log(urlForecast);
 }
+
+
+
 
 function setIcon (ID) {
   switch(ID) {
@@ -102,7 +104,7 @@ function setWeather (response) {
   var curID = response.weather[0].id;
 
   $('#location').html(cityName);
-  $('#t1').html(curTemp+"&#8457;");
+  $('#t1').html(curTemp+"&deg;");
   $('#c1').html(curCond);
   $('#hum1').html("Humidity: "+curHum+"%");
 
@@ -121,12 +123,12 @@ function setForecast (response) {
 }
 
 function weatherSuccess (response) {
-  //console.log(response);
+  console.log(response);
   setWeather(response);
 }
 
 function forecastSuccess (response) {
-  //console.log(response);
+  console.log(response);
   setForecast(response);
 }
 
@@ -154,7 +156,7 @@ function fetchForecast () {
       dataType: 'jsonp',
       url: urlForecast,
       xhrFields: {
-        withCredentials: false
+        withCredentials: true
       },
       success: forecastSuccess,
 
@@ -183,13 +185,40 @@ function setMinMax (response) {
   }
 }
 
+function googleAPI () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+        var locLat = JSON.parse(xhttp.responseText).location.lat;
+        var locLon = JSON.parse(xhttp.responseText).location.lng;
+        //var geolocation = JSON.parse(xhttp.responseText).location;
+        //var loc = geolocation.lat + ',' + geolocation.lng;
+        console.log(locLat + ", " + locLon);
+        console.log((xhttp.responseText));
+        curLon = locLon;
+        curLat = locLat;
+        setLocation(curLat,curLon);
+        fetchWeather();
+        fetchForecast();
+
+      }
+  };
+
+
+  xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCLDBQ2VUm4Jg72ZOr0HJ3mkdfnnhjw9Q", true);
+  xhttp.send();
+
+}
+
+
 $(document).ready(function(){
 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    setLocation(position.coords.latitude, position.coords.longitude);
-    fetchWeather();
-    fetchForecast();
-  });
+ // navigator.geolocation.getCurrentPosition(function(position) {
+    googleAPI();
+   // setLocation(position.coords.latitude, position.coords.longitude);
+
+ // });
 
   $(document).on('click', function () {
 
