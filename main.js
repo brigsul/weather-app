@@ -1,10 +1,11 @@
-var curLon = 0;
-var curLat = 0;
+var curLon = '';
+var curLat = '';
 var urlWeather = '';
 var urlForecast = '';
 var curMin1 = 9999;
 var curMax1 = -9999;
 var hour = (new Date()).getHours();
+<<<<<<< HEAD
 var curTemp = 0;
 var unitStatus = "1F";
 
@@ -23,13 +24,26 @@ function setLocation (lat, lon) {
     urlForecast = 'http://api.openweathermap.org/data/2.5/forecast?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=metric';
   }
   /*console.log(curLat);
+=======
+var curLoc = '';
+
+function setLocation (lat, lon) {
+  urlWeather = 'http://api.openweathermap.org/data/2.5/weather?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
+  urlForecast = 'http://api.openweathermap.org/data/2.5/forecast?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
+  console.log(curLat);
+>>>>>>> master
   console.log(curLon);
   console.log(urlWeather);
   console.log(urlForecast);
   */
 }
 
+<<<<<<< HEAD
 /* Take Open Weather API id and assign weather icon */
+=======
+
+
+>>>>>>> master
 
 function setIcon (ID) {
   switch(ID) {
@@ -120,6 +134,10 @@ function setWeather (response) {
   setIcon(curID);
 
   $('#location').html(cityName);
+<<<<<<< HEAD
+=======
+  $('#t1').html(curTemp+"&deg;");
+>>>>>>> master
   $('#c1').html(curCond);
   $('#hum1').html("Humidity: "+curHum+"%");
 
@@ -158,12 +176,12 @@ function setForecast (response) {
 }
 
 function weatherSuccess (response) {
-  //console.log(response);
+  console.log(response);
   setWeather(response);
 }
 
 function forecastSuccess (response) {
-  //console.log(response);
+  console.log(response);
   setForecast(response);
 }
 
@@ -195,7 +213,7 @@ function fetchForecast () {
       dataType: 'jsonp',
       url: urlForecast,
       xhrFields: {
-        withCredentials: false
+        withCredentials: true
       },
       success: forecastSuccess,
 
@@ -245,8 +263,13 @@ function googleAPI () {
         var locLon = JSON.parse(xhttp.responseText).location.lng;
         //var geolocation = JSON.parse(xhttp.responseText).location;
         //var loc = geolocation.lat + ',' + geolocation.lng;
+<<<<<<< HEAD
         //console.log(locLat + ", " + locLon);
         //console.log((xhttp.responseText));
+=======
+        console.log(locLat + ", " + locLon);
+        console.log((xhttp.responseText));
+>>>>>>> master
         curLon = locLon;
         curLat = locLat;
         setLocation(curLat,curLon);
@@ -268,6 +291,11 @@ $(document).ready(function(){
  // navigator.geolocation.getCurrentPosition(function(position) {
     googleAPI();
    // setLocation(position.coords.latitude, position.coords.longitude);
+<<<<<<< HEAD
+=======
+
+ // });
+>>>>>>> master
 
  // });
 
