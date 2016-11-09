@@ -5,17 +5,31 @@ var urlForecast = '';
 var curMin1 = 9999;
 var curMax1 = -9999;
 var hour = (new Date()).getHours();
+var curTemp = 0;
+var unitStatus = "1F";
+
+/* Take Latitude and longitute Coords and update API links based on unit*/
 
 function setLocation (lat, lon) {
   curLat = lat.toString();
   curLon = lon.toString();
-  urlWeather = 'http://api.openweathermap.org/data/2.5/weather?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
-  urlForecast = 'http://api.openweathermap.org/data/2.5/forecast?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
-  console.log(curLat);
+
+  if (unitStatus == "1F") {
+    urlWeather = 'http://api.openweathermap.org/data/2.5/weather?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
+    urlForecast = 'http://api.openweathermap.org/data/2.5/forecast?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=imperial';
+  }
+  else {
+    urlWeather = 'http://api.openweathermap.org/data/2.5/weather?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=metric';
+    urlForecast = 'http://api.openweathermap.org/data/2.5/forecast?lat='+curLat+'&lon='+curLon+'&APPID=ca658d6c3e2f5efdebb110ead41e152b&callback=?&units=metric';
+  }
+  /*console.log(curLat);
   console.log(curLon);
   console.log(urlWeather);
   console.log(urlForecast);
+  */
 }
+
+/* Take Open Weather API id and assign weather icon */
 
 function setIcon (ID) {
   switch(ID) {
@@ -94,30 +108,53 @@ function setIcon (ID) {
   }
 }
 
+/* Take Open Weather API data (City/Temp/Cond/Humidity/ID) and assign HTML */
+
 function setWeather (response) {
   var cityName = response.name;
-  var curTemp = Math.round(response.main.temp);
+  curTemp = Math.round(response.main.temp);
   var curCond = response.weather[0].main;
   var curHum = response.main.humidity;
   var curID = response.weather[0].id;
 
+  setIcon(curID);
+
   $('#location').html(cityName);
-  $('#t1').html(curTemp+"&#8457;");
   $('#c1').html(curCond);
   $('#hum1').html("Humidity: "+curHum+"%");
 
-  setIcon(curID);
+  if (unitStatus == "1F") {
+    $('#t1').html(curTemp+"&#8457;");
+  }
+  else {
+    $('#t1').html(curTemp+"&#8451;");
+  }
 
+  /*
+  console.log(cityName);
+  console.log(curTemp);
+  console.log(curCond);
+  console.log(curHum);
+  console.log(curID);
   console.log(response);
+  */
 }
 
+/* Set Min/Max Temps and assign Forecast to HTML */
+
 function setForecast (response) {
-  setMinMax(response);
+  setMin (response);
+  setMax (response);
 
-  $('#mint1').html(curMin1+"&#8457;");
-  $('#maxt1').html(curMax1+"&#8457;");
-
-  console.log(response);
+  if (unitStatus == "1F") {
+    $('#mint1').html(curMin1+"&#8457;");
+    $('#maxt1').html(curMax1+"&#8457;");
+  }
+  else {
+    $('#mint1').html(curMin1+"&#8451;");
+    $('#maxt1').html(curMax1+"&#8451;");
+  }
+  //console.log(response);
 }
 
 function weatherSuccess (response) {
@@ -134,6 +171,8 @@ function fetchError () {
   alert('Could not retreive weather');
 }
 
+/* Open Weather Current Weather API Call */
+
 function fetchWeather () {
   $.ajax({
       type: 'GET',
@@ -147,6 +186,8 @@ function fetchWeather () {
       error: fetchError
     });
 }
+
+/* Open Weather Forecast API Call */
 
 function fetchForecast () {
   $.ajax({
@@ -165,33 +206,80 @@ function fetchForecast () {
 /* Iterate through forecast response to find
     min and max temps for next 24 hours */
 
-function setMinMax (response) {
+function setMin (response) {
+  curMin1 = 9999;
   for(var i = 0; i < 8; i++) {
-    console.log(response.list[i].main.temp_min);
     var tempMin1 = response.list[i].main.temp_min;
-    var tempMax1 = response.list[i].main.temp_max;
+    //console.log(tempMin1);
 
     if (tempMin1 < curMin1) {
-      curMin1 = Math.round(tempMin1);
+      curMin1 = Math.round(response.list[i].main.temp_min);
     }
-    else if (tempMax1 > curMax1) {
-      curMax1 = Math.round(tempMax1);
-    }
-    else {
-      return;
+    else if (curMin1 > curTemp) {
+      curMin1 = Math.round(curTemp);
     }
   }
 }
 
+function setMax (response) {
+  curMax1 = -9999;
+  for (var j = 0; j < 8; j++) {
+    var tempMax1 = response.list[j].main.temp_max;
+    //console.log(tempMax1);
+
+    if (tempMax1 > curMax1) {
+      curMax1 = Math.round(response.list[j].main.temp_max);
+    }
+    else if (curMax1 < curTemp) {
+      curMax1 = Math.round(curTemp);
+    }
+  }
+}
+
+function googleAPI () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+        var locLat = JSON.parse(xhttp.responseText).location.lat;
+        var locLon = JSON.parse(xhttp.responseText).location.lng;
+        //var geolocation = JSON.parse(xhttp.responseText).location;
+        //var loc = geolocation.lat + ',' + geolocation.lng;
+        //console.log(locLat + ", " + locLon);
+        //console.log((xhttp.responseText));
+        curLon = locLon;
+        curLat = locLat;
+        setLocation(curLat,curLon);
+        fetchWeather();
+        fetchForecast();
+
+      }
+  };
+
+
+  xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCLDBQ2VUm4Jg72ZOr0HJ3mkdfnnhjw9Q", true);
+  xhttp.send();
+
+}
+
+
 $(document).ready(function(){
 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    setLocation(position.coords.latitude, position.coords.longitude);
-    fetchWeather();
-    fetchForecast();
-  });
+ // navigator.geolocation.getCurrentPosition(function(position) {
+    googleAPI();
+   // setLocation(position.coords.latitude, position.coords.longitude);
 
-  $(document).on('click', function () {
+ // });
 
+  $('#unitButton').on('click', function () {
+    if (unitStatus == "1F") {
+      unitStatus = "2C";
+      googleAPI();
+    }
+    else {
+      unitStatus = "1F";
+      googleAPI();
+    }
+    console.log(unitStatus);
   });
 });

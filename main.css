@@ -65,3 +65,15 @@ body {
   font-family: Lato;
   padding-bottom: 10px;
 }
+
+button {
+  margin-bottom: 25px;
+  background: none;
+  border: 3px solid black;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+button:hover {
+  background: rgb(0, 133, 255);
+}
