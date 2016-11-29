@@ -1,0 +1,96 @@
+body {
+  background-color: #DDD;
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  font-family: Oswald;
+  font-size: 36px;
+}
+
+.title h2 {
+  margin-top: -10px;
+  font-size: 28px;
+  font-weight: lighter;
+  font-family: Lato;
+}
+
+#location {
+  font-weight: 800;
+  font-family: Lato;
+}
+
+.card {
+  /*padding-top: 40px;*/
+  text-align: center;
+  background-color: #FFF;
+  /*padding: 25px;*/
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.2s;
+  border-radius: 5px;
+  padding: 0 50px;
+  display: inline-block;
+  font-family: Muli;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.curCol {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+#weatherTable {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 24px;
+  font-family: Muli;
+}
+
+th,
+td {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.container {
+  padding: 2px 16px;
+}
+
+#c1 {
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+#hum1 {
+  margin-top: 10px;
+  font-size: 22px;
+}
+
+#weatherTop,
+#weatherBottom {
+  font-size: 28px;
+}
+
+#weatherIcon img {
+  height: 150px;
+}
+
+
+
+button {
+  margin-bottom: 25px;
+  background: none;
+  border: 3px solid black;
+  border-radius: 5px;
+  font-size: 20px;
+  transition: 0.5s;
+}
+
+button:hover {
+  background: #BBB;
+}
