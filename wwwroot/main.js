@@ -35,30 +35,39 @@ function setIcon (ID) {
   switch(ID) {
     case 800:
         if (7 < hour && hour < 19) {
-          $('#weatherIcon').html("<img src='/icons/clear-day.png'/>");
+          $('#weatherIcon').html("<img src='clear-day.png'/>");
         }
         else {
-          $('#weatherIcon').html("<img src='/icons/clear-night.png'/>");
+          $('#weatherIcon').html("<img src='clear-night.png'/>");
         }
         break;
     case 801:
         if (7 < hour && hour < 19) {
-          $('#weatherIcon').html("<img src='/icons/cloudy-day.png'/>");
+          $('#weatherIcon').html("<img src='cloudy-day.png'/>");
         }
         else {
-          $('#weatherIcon').html("<img src='/icons/cloudy-night.png'/>");
+          $('#weatherIcon').html("<img src='cloudy-night.png'/>");
         }
         break;
     case 802:
     case 803:
     case 804:
         if (7 < hour && hour < 19) {
-          $('#weatherIcon').html("<img src='/icons/cloudy.png'/>");
+          $('#weatherIcon').html("<img src='cloudy.png'/>");
         }
         else {
-          $('#weatherIcon').html("<img src='/icons/cloudy-night.png'/>");
+          $('#weatherIcon').html("<img src='cloudy-night.png'/>");
         }
         break;
+    case 300:
+    case 301:
+    case 302:
+    case 310:
+    case 311:
+    case 312:
+    case 313:
+    case 314:
+    case 321:    
     case 500:
     case 501:
     case 502:
@@ -73,7 +82,7 @@ function setIcon (ID) {
           $('#weatherIcon').html("<img src='rainy-day.png'/>");
         }
         else {
-          $('#weatherIcon').html("<img src='/www/sites/client4/wwwroot/icons'/>");
+          $('#weatherIcon').html("<img src='rainy-night.png'/>");
         }
         break;
     case 600:
@@ -87,10 +96,10 @@ function setIcon (ID) {
     case 621:
     case 622:
         if (7 < hour && hour < 19) {
-          $('#weatherIcon').html("<img src='/icons/snowy-day.png'/>");
+          $('#weatherIcon').html("<img src='snowy-day.png'/>");
         }
         else {
-          $('#weatherIcon').html("<img src='/icons/snowy-night.png'/>");
+          $('#weatherIcon').html("<img src='snowy-night.png'/>");
         }
         break;
     case 200:
@@ -103,7 +112,7 @@ function setIcon (ID) {
     case 230:
     case 231:
     case 232:
-        $('#weatherIcon').html("<img src='/icons/tstorms.png'/>");
+        $('#weatherIcon').html("<img src='tstorms.png'/>");
         break;
   }
 }
